@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, unique: true },
     password: String,
     profilePic: String,
+    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     isOnline: { type: Boolean, default: false },
 }, { timestamps: true });
 

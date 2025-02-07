@@ -1,15 +1,16 @@
 require('./connection/connection');
-// const express = require("express");
-// const cors = require('cors');
 
-// require("dotenv").config();
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
-// const mongoose = require("mongoose");
 const cors = require("cors");
+
 const Chat = require("./models/Chat");
 const User = require("./models/User");
+
+const authRouter = require('./routers/authRoutes');
+const usersRoute = require("./routers/usersRoutes");
+
 
 const app = express();
 const server = http.createServer(app);
@@ -17,7 +18,8 @@ const io = socketIo(server, {
     cors: { origin: "http://localhost:5173" }
 });
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 // Connect to MongoDB
@@ -56,6 +58,14 @@ io.on("connection", (socket) => {
         }
     });
 });
+
+app.use('/api/', authRouter);
+
+app.use("/api/users", usersRoute);
+
+app.get('/', async (req, res) => {
+    res.send("Server is working fine!!")
+})
 
 // Start Server
 const PORT = 8000;

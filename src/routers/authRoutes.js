@@ -5,7 +5,7 @@ const User = require("../models/User");
 
 const router = express.Router();
 
-router.post("/api/register", async (req, res) => {
+router.post("/register", async (req, res) => {
     const { name, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -18,7 +18,7 @@ router.post("/api/register", async (req, res) => {
     }
 });
 
-router.post("api/login", async (req, res) => {
+router.post("/login", async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
@@ -26,7 +26,10 @@ router.post("api/login", async (req, res) => {
         return res.status(400).json({ error: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ userId: user._id }, "SECRET_KEY", { expiresIn: "7d" });
+    // const token = jwt.sign({ userId: user._id }, "SECRET_KEY", { expiresIn: "7d" });
+    const JWT_SECRET = "aVeryStrongRandomSecretKey123!@#";
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "7d" });
+
     res.json({ token, userId: user._id, name: user.name });
 });
 
