@@ -30,7 +30,7 @@ router.post("/login", async (req, res) => {
     const JWT_SECRET = "aVeryStrongRandomSecretKey123!@#";
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "7d" });
 
-    res.json({ token, userId: user._id, name: user.name });
+    res.json({ token, userId: user._id, name: user.name, email: user.email });
 });
 
 module.exports = router;

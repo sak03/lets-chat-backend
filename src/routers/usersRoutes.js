@@ -38,6 +38,18 @@ router.get("/friends", authMiddleware, async (req, res) => {
     }
 });
 
+router.get("/all", async (req, res) => {
+    try {
+        // Fetch all users from the database (only necessary fields)
+        const users = await User.find();
+
+        res.json({ users });
+    } catch (error) {
+        console.error("⛔ Error fetching users:", error);
+        res.status(500).json({ error: "Failed to fetch users" });
+    }
+});
+
 /**
  * @route PUT /api/users/add-friend/:friendId
  * @desc Add a friend to the user's friend list
