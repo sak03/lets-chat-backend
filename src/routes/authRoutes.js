@@ -5,7 +5,7 @@ const User = require("../models/User");
 
 const router = express.Router();
 
-router.post("/register", async (req, res) => {
+router.post("/api/register", async (req, res) => {
     const { name, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -18,7 +18,7 @@ router.post("/register", async (req, res) => {
     }
 });
 
-router.post("/login", async (req, res) => {
+router.post("api/login", async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
