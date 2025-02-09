@@ -21,8 +21,8 @@ module.exports = (server) => {
             console.log(`📢 User joined: ${userId}`);
             if (!userId) return;
             users[userId] = socket.id;
-            console.log(`🔵 User Joined: ${userId} | Socket ID: ${socket.id}`); // Debug
-            console.log("🟢 Updated Users List:", users); // Debug users object
+            // console.log(`🔵 User Joined: ${userId} | Socket ID: ${socket.id}`); // Debug
+            // console.log("🟢 Updated Users List:", users); // Debug users object
             await User.findByIdAndUpdate(userId, { isOnline: true });
             io.emit("updateUserStatus", { userId, isOnline: true });
         });
@@ -38,7 +38,7 @@ module.exports = (server) => {
             await chat.save();
 
             if (users[receiverId]) {
-                console.log(`📨 Delivering to receiver: ${receiverId} at socket ${users[receiverId]}`);
+                // console.log(`📨 Delivering to receiver: ${receiverId} at socket ${users[receiverId]}`);
                 io.to(users[receiverId]).emit("receiveMessage", chat);
             } else {
                 console.log(`❌ Receiver ${receiverId} is not online`);
